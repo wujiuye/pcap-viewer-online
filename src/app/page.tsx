@@ -9,6 +9,16 @@ export default function Home() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [isFileLoaded, setIsFileLoaded] = useState(false);
   const [showAd, setShowAd] = useState(false);
+  const [wasmStatus, setWasmStatus] = useState<{ initialized: boolean; error: string | null; progress: string | null }>({
+    initialized: false,
+    error: null,
+    progress: null,
+  });
+
+  let headerStatusText = "LOADING WASM...";
+  if (wasmStatus.error) headerStatusText = "WASM FAILED";
+  else if (wasmStatus.initialized) headerStatusText = "WASM READY";
+  else if (wasmStatus.progress) headerStatusText = "LOADING WASM...";
 
   useEffect(() => {
     if (isFileLoaded) {
@@ -35,7 +45,7 @@ export default function Home() {
         <div className={styles.headerRight}>
           <div className={styles.headerStatus}>
             <span className={styles.statusBlink}></span>
-            SYS_STATUS: ONLINE
+            {headerStatusText}
           </div>
           <div className={styles.headerTag}>
             // LOCAL_PARSING_ONLY
@@ -56,6 +66,7 @@ export default function Home() {
                   globalFilter={globalFilter}
                   onFilterChange={setGlobalFilter}
                   onFileLoaded={setIsFileLoaded}
+                  onWasmStatusChange={setWasmStatus}
                 />
               </div>
             </div>

@@ -8,9 +8,10 @@ interface AnalyzerUIProps {
   globalFilter?: string;
   onFilterChange?: (value: string) => void;
   onFileLoaded?: (isLoaded: boolean) => void;
+  onWasmStatusChange?: (status: { initialized: boolean; error: string | null; progress: string | null }) => void;
 }
 
-export default function AnalyzerUI({ globalFilter = '', onFilterChange, onFileLoaded }: AnalyzerUIProps) {
+export default function AnalyzerUI({ globalFilter = '', onFilterChange, onFileLoaded, onWasmStatusChange }: AnalyzerUIProps) {
   const [topPaneHeight, setTopPaneHeight] = useState(50); // percentage
   const [leftPaneWidth, setLeftPaneWidth] = useState(50); // percentage
   const [isDraggingY, setIsDraggingY] = useState(false);
@@ -97,6 +98,12 @@ export default function AnalyzerUI({ globalFilter = '', onFilterChange, onFileLo
       onFileLoaded(!!activeFile);
     }
   }, [activeFile, onFileLoaded]);
+
+  useEffect(() => {
+    if (onWasmStatusChange) {
+      onWasmStatusChange({ initialized, error, progress: progressMsg });
+    }
+  }, [initialized, error, progressMsg, onWasmStatusChange]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -359,6 +366,39 @@ function FrameTreeNode({ node, onHoverRange }: { node: any, onHoverRange: (s: nu
 }
 
 function HexViewer({ data, highlightRange }: { data: Uint8Array, highlightRange: [number, number] | null }) {
+  const [localSelection, setLocalSelection] = useState<[number, number] | null>(null);
+
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+        setLocalSelection(null);
+        return;
+      }
+      
+      const range = selection.getRangeAt(0);
+      let startNode = range.startContainer;
+      let endNode = range.endContainer;
+      
+      // Navigate up to the span elements
+      while (startNode && startNode.nodeType !== Node.ELEMENT_NODE) startNode = startNode.parentNode as Node;
+      while (endNode && endNode.nodeType !== Node.ELEMENT_NODE) endNode = endNode.parentNode as Node;
+      
+      if (startNode && endNode && (startNode as Element).hasAttribute('data-byte-idx') && (endNode as Element).hasAttribute('data-byte-idx')) {
+        const startIdx = parseInt((startNode as Element).getAttribute('data-byte-idx') || '0', 10);
+        const endIdx = parseInt((endNode as Element).getAttribute('data-byte-idx') || '0', 10);
+        const minIdx = Math.min(startIdx, endIdx);
+        const maxIdx = Math.max(startIdx, endIdx);
+        setLocalSelection([minIdx, maxIdx - minIdx + 1]);
+      } else {
+        setLocalSelection(null);
+      }
+    };
+
+    document.addEventListener('selectionchange', handleSelectionChange);
+    return () => document.removeEventListener('selectionchange', handleSelectionChange);
+  }, []);
+
   if (!data || data.length === 0) return null;
 
   const rows = [];
@@ -378,14 +418,18 @@ function HexViewer({ data, highlightRange }: { data: Uint8Array, highlightRange:
     for (let j = 0; j < chunk.length; j++) {
       const byteIndex = i + j;
       const isHighlighted = byteIndex >= hStart && byteIndex < hEnd;
-      const className = isHighlighted ? styles.highlightedByte : '';
+      const isSelected = localSelection && byteIndex >= localSelection[0] && byteIndex < localSelection[0] + localSelection[1];
+      
+      let className = '';
+      if (isHighlighted) className = styles.highlightedByte;
+      else if (isSelected) className = styles.syncSelectedByte;
       
       const b = chunk[j];
       const hexStr = b.toString(16).padStart(2, '0');
       const asciiChar = (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.';
       
-      hexBytes.push(<span key={j} className={className}>{hexStr} </span>);
-      asciiChars.push(<span key={j} className={className}>{asciiChar}</span>);
+      hexBytes.push(<span key={j} data-byte-idx={byteIndex} className={className}>{hexStr} </span>);
+      asciiChars.push(<span key={j} data-byte-idx={byteIndex} className={className}>{asciiChar}</span>);
     }
     
     // Padding for incomplete rows

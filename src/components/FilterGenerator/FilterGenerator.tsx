@@ -190,13 +190,20 @@ export default function FilterGenerator({ globalFilter = '', onFilterChange }: F
 
     isSettingFromProps.current = true;
     
+    // We use a timeout to reset the flag in case the parsed state doesn't change filterString,
+    // which would otherwise prevent the upward sync effect from running and resetting the flag.
+    const timer = setTimeout(() => {
+      isSettingFromProps.current = false;
+    }, 50);
+    
     if (!globalFilter) {
       // Clear all forms
+      setActiveTab('tcp');
       setTcpState({ srcIp: '', dstIp: '', srcPort: '', dstPort: '', flags: { syn: false, ack: false, fin: false, rst: false, psh: false, urg: false }, windowSize: '', seqNumber: '', payloadContains: '', payloadLength: '' });
       setHttpState({ method: '', host: '', uri: '', statusCode: '', contentType: '' });
       setWsState({ host: '', port: '', path: '', protocol: '', opcode: '', payloadContains: '', payloadLength: '', masked: '', fin: '', upgradeRequest: false, upgradeResponse: false });
       setDnsState({ queryName: '', queryType: '', responseCode: '', flags: [], server: '', client: '', transactionId: '', queryClass: '', answerContains: '', ttl: '' });
-      return;
+      return () => clearTimeout(timer);
     }
 
     // Very basic "best-effort" parsing
@@ -231,6 +238,7 @@ export default function FilterGenerator({ globalFilter = '', onFilterChange }: F
     // WS Parsing
     const wsOpcodeMatch = str.match(/websocket\.opcode == (\d+)/);
     const wsPayloadMatch = str.match(/websocket\.payload contains "([^"]+)"/);
+    const isHttpOnly = str === 'http';
     const isWsOnly = str === 'websocket';
 
     // DNS Parsing
@@ -239,7 +247,7 @@ export default function FilterGenerator({ globalFilter = '', onFilterChange }: F
     const dnsRcodeMatch = str.match(/dns\.flags\.rcode == (\d+)/);
     const isDnsOnly = str === 'dns';
 
-    const isHttp = methodMatch || hostMatch || uriMatch || statusMatch || contentMatch;
+    const isHttp = methodMatch || hostMatch || uriMatch || statusMatch || contentMatch || isHttpOnly;
     const isWs = wsOpcodeMatch || wsPayloadMatch || isWsOnly;
     const isDns = dnsQryNameMatch || dnsQryTypeMatch || dnsRcodeMatch || isDnsOnly;
 
@@ -304,6 +312,7 @@ export default function FilterGenerator({ globalFilter = '', onFilterChange }: F
       clearDns();
     }
 
+    return () => clearTimeout(timer);
   }, [globalFilter]);
 
 
