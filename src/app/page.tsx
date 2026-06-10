@@ -78,7 +78,7 @@ export default function Home() {
         <div className={styles.footerBottom}>
           <p>&copy; {new Date().getFullYear()} PCAP Viewer Online. All rights reserved.</p>
           <p style={{ marginTop: '0.5rem', color: '#64748b', fontSize: '0.85rem' }}>
-            <strong>Declaration:</strong> This website utilizes a WebAssembly port of the open-source Wireshark network protocol analyzer. This project is not officially affiliated with or endorsed by the Wireshark Foundation.
+            <strong>Declaration:</strong> This website utilizes a WebAssembly port of the open-source Wireshark network protocol analyzer compiled by the <a href="https://github.com/good-tools/wiregasm" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'inherit' }}>Wiregasm</a> project. This project is not officially affiliated with or endorsed by the Wireshark Foundation.
           </p>
         </div>
       </footer>
