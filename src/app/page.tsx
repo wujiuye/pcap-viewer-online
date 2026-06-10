@@ -40,9 +40,9 @@ export default function Home() {
           <div className={styles.headerTag}>
             // LOCAL_PARSING_ONLY
           </div>
-          {/* <a href="https://github.com" target="_blank" className={styles.headerBtn}>
+          <a href="https://github.com/wujiuye/pcap-viewer-online" target="_blank" className={styles.headerBtn}>
             [ FORK_ON_GITHUB ]
-          </a> */}
+          </a>
         </div>
       </header>
 
