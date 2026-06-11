@@ -168,6 +168,11 @@ export default function AnalyzerUI({ globalFilter = '', onFilterChange, onFileLo
               )}
             </div>
             {error && <p className={styles.error}>{error}</p>}
+
+            <div className={styles.screenshotPreview}>
+              <div className={styles.screenshotTitle}>Interface Preview //</div>
+              <img src="/pcapvieweronline.webp" alt="Software running effect preview" className={styles.screenshotImage} />
+            </div>
           </div>
 
           {/* SEO Content Section */}
