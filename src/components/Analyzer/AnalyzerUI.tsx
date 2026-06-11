@@ -144,7 +144,7 @@ export default function AnalyzerUI({ globalFilter = '', onFilterChange, onFileLo
                   <svg className={styles.uploadIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                   </svg>
-                  <h3>Select a PCAP/PCAPNG File</h3>
+                  <h2>Select a PCAP/PCAPNG File</h2>
                   <p>Drag and drop or click anywhere to upload</p>
                   <input 
                     type="file" 
@@ -183,39 +183,39 @@ export default function AnalyzerUI({ globalFilter = '', onFilterChange, onFileLo
             </div>
             <div className={styles.seoGrid}>
               <div className={styles.seoCard}>
-                <h4>
+                <h3>
                   <svg className={styles.seoIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                   100% Privacy
-                </h4>
+                </h3>
                 <p>Everything runs entirely in your local browser using WebAssembly. Your sensitive PCAP files never leave your machine. No uploads, no cloud servers, no data retention.</p>
               </div>
               <div className={styles.seoCard}>
-                <h4>
+                <h3>
                   <svg className={styles.seoIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   Wireshark Engine
-                </h4>
+                </h3>
                 <p>Powered by the exact same C/C++ engine that runs the desktop Wireshark app, compiled directly to WebAssembly. Expect the exact same packet decoding, protocol support, and reliability.</p>
               </div>
               <div className={styles.seoCard}>
-                <h4>
+                <h3>
                   <svg className={styles.seoIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                   </svg>
                   No Installation
-                </h4>
+                </h3>
                 <p>Skip the bulky downloads and admin privileges. Open packet captures instantly on any device, from any modern web browser, regardless of your operating system.</p>
               </div>
               <div className={styles.seoCard}>
-                <h4>
+                <h3>
                   <svg className={styles.seoIcon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
                   </svg>
                   Advanced Filtering
-                </h4>
+                </h3>
                 <p>Utilize the built-in Smart Filter Generator to build complex display filters for TCP, HTTP, WebSocket, and DNS without having to memorize Wireshark syntax.</p>
               </div>
             </div>

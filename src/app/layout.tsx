@@ -16,11 +16,14 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://pcapviewer.online"),
   title: "PCAP Viewer Online | View PCAP Files Free In Your Browser",
-  description: "Open and analyze PCAP/PCAPNG files directly in your browser. A free online PCAP viewer without installing Wireshark. Your files are processed entirely in-browser and never uploaded to a server.",
-  keywords: "PCAP Viewer, PCAP Viewer Online, Online PCAP analyzer, Wireshark alternative online, open PCAP file",
+  description: "Free online PCAP viewer. Open, parse, and analyze PCAP/PCAPNG files locally in your browser. No installation needed. 100% secure with no uploads.",
+  keywords: "PCAP Viewer, PCAP Viewer Online, Online PCAP analyzer, open PCAP file, local PCAP reader",
+  alternates: {
+    canonical: "https://pcapviewer.online",
+  },
   openGraph: {
     title: "PCAP Viewer Online",
-    description: "Free online PCAP viewer. Analyze PCAP/PCAPNG files securely inside your browser without data upload.",
+    description: "Free online PCAP viewer. Open, parse, and analyze PCAP/PCAPNG files locally in your browser. No installation needed. 100% secure with no uploads.",
     url: "https://pcapviewer.online",
     siteName: "PCAP Viewer Online",
     locale: "en_US",
