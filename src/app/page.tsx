@@ -107,7 +107,7 @@ export default function Home() {
               ChatTCP makes viewing network packets as simple as reading chat logs!
             </div>
           </div>
-          <a href="https://chattcp.com/" target="_blank" rel="noopener noreferrer" className={styles.adButton}>
+          <a href="https://chattcp.com/?source=pcapvieweronline&keyword=pcapvieweronline&matchtype=b&device=c" target="_blank" rel="noopener noreferrer" className={styles.adButton}>
             <span>Visit ChatTCP</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
